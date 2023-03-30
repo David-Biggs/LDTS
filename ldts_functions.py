@@ -23,7 +23,7 @@ def normalise(Z,upper_bound,lower_bound):
     return Z_norm
 
 
-def LDTS(detection_data,threshold, upper_bound=1.00,lower_bound=0.00): 
+def LDTS(detection_data,threshold): 
     '''
     Args:
         detection_data::[array_like]
@@ -66,7 +66,7 @@ def LDTS(detection_data,threshold, upper_bound=1.00,lower_bound=0.00):
     count = np.count_nonzero(P > Ts)
     return count
 
-def video_count(detection_data_path,max_frames,upper,lower,threshold,bw_method):
+def video_count(detection_data_path,max_frames,threshold):
     '''
     Uses frames in a video to calculate average video count
 
@@ -75,14 +75,9 @@ def video_count(detection_data_path,max_frames,upper,lower,threshold,bw_method):
             Path to np arrays containing detection data - these should be the arrays from each frame in a video
         max_frames::[int]
             The number of frames to use when calculating the average 
-        upper::[float]
-            Upper normalisation bound. Default = 1.00
-        lower::[float]
-            lower normalisation bound. Default = 0.00
         threshold::[float]
             The counting threshold
-        bw_method::[str]
-            The bandwidth calculation method. Default 'normal_reference')
+
     Returns:
         average_count::[int]
             The average object count in the video
@@ -97,7 +92,7 @@ def video_count(detection_data_path,max_frames,upper,lower,threshold,bw_method):
     for detection_arr in os.listdir(detection_data_path):
 
         if frame_counter < max_frames:          
-            count  = LDTS(detection_arr,threshold,norm_upper, norm_lower,bw_method)
+            count  = LDTS(detection_arr,threshold)
             video_counts.append(count)
             frame_counter +=1
         else:
